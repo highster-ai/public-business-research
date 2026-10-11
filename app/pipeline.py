@@ -708,7 +708,13 @@ def launch_worker(run,key,node,attempts,infra,attempts_path,infra_path):
    if k in os.environ:env[k]=os.environ[k]
   if execution_backend=='docker':command=docker_command(run,key,role)
   else:
-   from sandbox import policy
+   from sandbox import policy,role_tmp
+   # The sandbox no longer permits the machine-wide temporary directories, so
+   # the worker's scratch space is the role's own directory inside the run.
+   # Every temporary-directory variable is named, because libraries disagree
+   # about which one they consult. Docker is untouched: it never read these.
+   tmp=role_tmp(run,role);tmp.mkdir(parents=True,exist_ok=True)
+   env['TMPDIR']=env['TMP']=env['TEMP']=str(tmp)
    sp=Path(run)/'control/sandboxes'/(role+'.sb');sp.parent.mkdir(exist_ok=True);sp.write_text(policy(run,role))
    command=['/usr/bin/sandbox-exec','-f',str(sp),sys.executable,str(ROOT/'app/pipeline.py'),'worker',str(run),key]
   with log_path.open('a') as log:

@@ -1,10 +1,10 @@
-"""Run the macOS sandbox boundary tests, failing unless both actually ran.
+"""Run the macOS sandbox boundary tests, failing unless every one actually ran.
 
-These two tests are the only place the fail-closed SBPL policy is executed
-against real `sandbox-exec`, so they can only run on macOS and are skipped
-everywhere else. That makes them easy to lose: a re-added platform guard or a
-renamed test would turn the macOS CI job green while nothing was exercised. Run
-them through here so a skip is a failure, and report what was run.
+These tests are the only place the fail-closed SBPL policy is executed against
+real `sandbox-exec`, so they can only run on macOS and are skipped everywhere
+else. That makes them easy to lose: a re-added platform guard or a renamed test
+would turn the macOS CI job green while nothing was exercised. Run them through
+here so a skip is a failure, and report what was run.
 """
 import sys
 import unittest
@@ -16,7 +16,9 @@ sys.path.insert(0, str(TESTS))
 
 import test_runtime  # noqa: E402
 
-NAMES = ['test_os_boundaries', 'test_renderer_raw_denied']
+NAMES = ['test_os_boundaries', 'test_renderer_raw_denied',
+         'test_home_below_tmp_is_unreadable', 'test_temporary_directory_is_role_scoped',
+         'test_unrelated_private_tmp_file_is_denied', 'test_canonical_write_denied_for_non_consolidator']
 
 
 def main():
