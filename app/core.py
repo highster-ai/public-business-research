@@ -41,6 +41,15 @@ def audit(run,role,event,payload):
  item={'at':now(),'role':role,'event':event,'payload':payload,'previous':prev};item['sha256']=digest(item)
  with p.open('a') as f:f.write(json.dumps(item,ensure_ascii=False)+'\n')
  p.chmod(0o600)
+def host_matches_domain(host,domain):
+ # DNS-label boundary, not a substring test. 'instagram.com' appears inside
+ # 'evil-instagram.com' and 'instagram.com.evil.example', so `'instagram.com'
+ # in host` classifies both as Instagram -- the false positive CodeQL reports
+ # as py/incomplete-url-substring-sanitization. A host belongs to the domain
+ # only when it is the domain itself or a label-boundary subdomain of it.
+ host=(host or '').lower().rstrip('.')
+ return host==domain or host.endswith('.'+domain)
+
 def safe_url(url,role,resolve=True):
  u=urllib.parse.urlsplit(url);host=(u.hostname or '').lower()
  if u.scheme!='https' or u.username or u.password or u.port not in (None,443):raise ValueError('Only public HTTPS pages allowed')
@@ -49,7 +58,7 @@ def safe_url(url,role,resolve=True):
  if any(x in host for x in denied) or re.search(r'/(api|graphql|oauth|login|signin|direct|messages|send)(/|\?|$)',u.path,re.I):raise ValueError('API, private account or messaging URL denied')
  if role in {'find-maps','read-google','read-reviews'} and not (host in {'www.google.com','google.com','maps.google.com'} and u.path.startswith('/maps')):raise ValueError('Google Maps-only browser scope; plain web search is not permitted for this role')
  if role=='read-ig' and host not in {'www.instagram.com','instagram.com'}:raise ValueError('Instagram-only scope')
- if role!='read-ig' and 'instagram.com' in host:raise ValueError('Instagram requires dedicated reader context')
+ if role!='read-ig' and host_matches_domain(host,'instagram.com'):raise ValueError('Instagram requires dedicated reader context')
  if resolve:
   for result in socket.getaddrinfo(host,443):
    if not ipaddress.ip_address(result[4][0]).is_global:raise ValueError('Non-public address denied')

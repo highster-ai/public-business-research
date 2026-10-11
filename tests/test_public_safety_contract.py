@@ -61,6 +61,34 @@ class PublicSafetyContract(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "Instagram-only scope"):
             safe_url("https://example.com/", "read-ig", resolve=False)
 
+    def test_instagram_hostname_matching_uses_label_boundaries(self):
+        # 'instagram.com' tested as a bare substring also matches hosts that
+        # merely contain the text: 'evil-instagram.com' and
+        # 'instagram.com.evil.example'. Those are not Instagram, so they may
+        # be misclassified in either direction -- wrongly allowed as a
+        # lookalike by the read-ig allowlist's neighbour, and wrongly reported
+        # as Instagram to every other role. Both directions are pinned here.
+        real_instagram = (
+            "https://instagram.com/example/",
+            "https://www.instagram.com/example/",
+            "https://m.instagram.com/example/",
+        )
+        for url in real_instagram:
+            with self.subTest(url=url), self.assertRaisesRegex(
+                ValueError, "dedicated reader context"
+            ):
+                safe_url(url, "read-site", resolve=False)
+
+        lookalikes = (
+            "https://evil-instagram.com/",
+            "https://instagram.com.evil.example/",
+        )
+        for url in lookalikes:
+            with self.subTest(url=url):
+                self.assertEqual(safe_url(url, "read-site", resolve=False), url)
+                with self.assertRaisesRegex(ValueError, "Instagram-only scope"):
+                    safe_url(url, "read-ig", resolve=False)
+
     def test_private_and_local_addresses_are_denied(self):
         for url in (
             "https://localhost/",
