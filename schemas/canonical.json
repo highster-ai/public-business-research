@@ -1,0 +1,508 @@
+{
+  "type": "object",
+  "properties": {
+    "run_id": {
+      "type": "string"
+    },
+    "spec": {
+      "type": "object",
+      "properties": {
+        "category": {
+          "type": "string"
+        },
+        "area": {
+          "type": "string"
+        },
+        "country": {
+          "type": "string",
+          "pattern": "^[A-Z]{2}$"
+        },
+        "count": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 60
+        },
+        "sources": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "google_maps",
+              "web",
+              "instagram"
+            ]
+          }
+        },
+        "requested_fields": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "business_name",
+              "instagram",
+              "whatsapp",
+              "public_contact",
+              "google_rating",
+              "google_review_count",
+              "dm_proxy",
+              "dm_measured",
+              "owner"
+            ]
+          }
+        },
+        "dm_probe": {
+          "const": false
+        },
+        "formats": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "md",
+              "xlsx",
+              "pdf"
+            ]
+          }
+        }
+      },
+      "required": [
+        "category",
+        "area",
+        "country",
+        "count",
+        "sources",
+        "requested_fields",
+        "dm_probe",
+        "formats"
+      ],
+      "additionalProperties": false,
+      "$schema": "https://json-schema.org/draft/2020-12/schema"
+    },
+    "businesses": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "business_id": {
+            "type": "string"
+          },
+          "name_raw": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "evidence_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "business_id",
+          "name_raw",
+          "url",
+          "evidence_ids"
+        ],
+        "additionalProperties": false,
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "evidence_id": {
+            "type": "string"
+          },
+          "business_id": {
+            "type": "string"
+          },
+          "source_url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "source_kind": {
+            "enum": [
+              "official_site",
+              "google_maps",
+              "instagram",
+              "public_source",
+              "search_snippet"
+            ]
+          },
+          "snippet": {
+            "type": "string"
+          },
+          "raw_text": {
+            "type": "string"
+          },
+          "retrieved_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "reader": {
+            "enum": [
+              "find-maps",
+              "find-web",
+              "read-google",
+              "read-site",
+              "find-ig",
+              "read-ig",
+              "read-reviews",
+              "find-owner"
+            ]
+          },
+          "snapshot_id": {
+            "type": "string"
+          },
+          "snapshot_sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "field": {
+            "enum": [
+              "business_name",
+              "instagram",
+              "whatsapp",
+              "public_contact",
+              "google_rating",
+              "google_review_count",
+              "dm_proxy",
+              "dm_measured",
+              "owner",
+              "candidate",
+              "website",
+              "instagram_candidate",
+              "owner_reply",
+              "posting_recency"
+            ]
+          }
+        },
+        "required": [
+          "evidence_id",
+          "business_id",
+          "source_url",
+          "source_kind",
+          "snippet",
+          "raw_text",
+          "retrieved_at",
+          "reader",
+          "snapshot_id",
+          "snapshot_sha256",
+          "field"
+        ],
+        "additionalProperties": false,
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      }
+    },
+    "resolved_fields": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "business_id": {
+            "type": "string"
+          },
+          "field": {
+            "enum": [
+              "business_name",
+              "instagram",
+              "whatsapp",
+              "public_contact",
+              "google_rating",
+              "google_review_count",
+              "dm_proxy",
+              "dm_measured",
+              "owner"
+            ]
+          },
+          "status": {
+            "enum": [
+              "found",
+              "not_found",
+              "ambiguous",
+              "not_public",
+              "access_restricted",
+              "error"
+            ]
+          },
+          "value": {
+            "oneOf": [
+              {
+                "type": [
+                  "string",
+                  "number",
+                  "null"
+                ]
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "label": {
+                    "const": "Public activity proxy; not measured DM responsiveness"
+                  },
+                  "signals": {
+                    "type": "object",
+                    "properties": {
+                      "owner_reply": {
+                        "type": "object",
+                        "properties": {
+                          "status": {
+                            "enum": [
+                              "observed",
+                              "unavailable"
+                            ]
+                          },
+                          "evidence_ids": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          }
+                        },
+                        "required": [
+                          "status",
+                          "evidence_ids"
+                        ],
+                        "additionalProperties": false
+                      },
+                      "posting_recency": {
+                        "type": "object",
+                        "properties": {
+                          "status": {
+                            "enum": [
+                              "observed",
+                              "unavailable"
+                            ]
+                          },
+                          "evidence_ids": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          }
+                        },
+                        "required": [
+                          "status",
+                          "evidence_ids"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "required": [
+                      "owner_reply",
+                      "posting_recency"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "score": {
+                    "type": "null"
+                  }
+                },
+                "required": [
+                  "label",
+                  "signals",
+                  "score"
+                ],
+                "additionalProperties": false
+              }
+            ]
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "evidence_ids": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string"
+            }
+          },
+          "resolver": {
+            "type": "string"
+          },
+          "retrieved_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "resolved_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "method": {
+            "type": "string"
+          },
+          "components": {
+            "type": "object",
+            "properties": {
+              "owner_reply": {
+                "type": "object",
+                "properties": {
+                  "status": {
+                    "enum": [
+                      "observed",
+                      "unavailable"
+                    ]
+                  },
+                  "evidence_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "required": [
+                  "status",
+                  "evidence_ids"
+                ],
+                "additionalProperties": false
+              },
+              "posting_recency": {
+                "type": "object",
+                "properties": {
+                  "status": {
+                    "enum": [
+                      "observed",
+                      "unavailable"
+                    ]
+                  },
+                  "evidence_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "required": [
+                  "status",
+                  "evidence_ids"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "business_id",
+          "field",
+          "status",
+          "value",
+          "confidence",
+          "evidence_ids",
+          "resolver",
+          "retrieved_at",
+          "resolved_at",
+          "method"
+        ],
+        "additionalProperties": false,
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "status": {
+                  "const": "found"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "value": {
+                  "not": {
+                    "type": "null"
+                  }
+                },
+                "evidence_ids": {
+                  "minItems": 1
+                }
+              }
+            },
+            "else": {
+              "properties": {
+                "value": {
+                  "type": "null"
+                }
+              }
+            }
+          }
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      }
+    },
+    "validation": {
+      "type": "object",
+      "properties": {
+        "valid": {
+          "type": "boolean"
+        },
+        "errors": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "checked_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "valid",
+        "errors",
+        "checked_at"
+      ],
+      "additionalProperties": false,
+      "$schema": "https://json-schema.org/draft/2020-12/schema"
+    },
+    "source_priority": {
+      "type": "object",
+      "properties": {
+        "official_site": {
+          "const": 0
+        },
+        "google_maps": {
+          "const": 1
+        },
+        "instagram": {
+          "const": 2
+        },
+        "public_source": {
+          "const": 3
+        },
+        "search_snippet": {
+          "const": 4
+        }
+      },
+      "required": [
+        "official_site",
+        "google_maps",
+        "instagram",
+        "public_source",
+        "search_snippet"
+      ],
+      "additionalProperties": false
+    },
+    "approved": {
+      "const": false
+    }
+  },
+  "required": [
+    "run_id",
+    "spec",
+    "businesses",
+    "evidence",
+    "resolved_fields",
+    "validation",
+    "source_priority",
+    "approved"
+  ],
+  "additionalProperties": false
+}

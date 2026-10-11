@@ -1,0 +1,12 @@
+FROM nousresearch/hermes-agent@sha256:9774f4f39a9bb8c2f68ce728ed5e99ddbad282163be56764afacf88ed952b784
+
+USER root
+WORKDIR /opt/leadgen
+COPY app /opt/leadgen/app
+COPY schemas /opt/leadgen/schemas
+COPY profiles.json model-policy.json acceptance-policy.json /opt/leadgen/
+COPY requirements.lock /opt/leadgen/requirements.lock
+RUN /opt/hermes/.venv/bin/python -m ensurepip \
+    && /opt/hermes/.venv/bin/python -m pip install --no-cache-dir --no-deps -r /opt/leadgen/requirements.lock \
+    && HERMES_HOME=/tmp/hermes /opt/hermes/.venv/bin/hermes pm install agent-browser
+ENTRYPOINT ["/opt/hermes/.venv/bin/python", "/opt/leadgen/app/container_worker.py"]

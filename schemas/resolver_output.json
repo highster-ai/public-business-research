@@ -1,0 +1,246 @@
+{
+  "type": "object",
+  "properties": {
+    "resolutions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "business_id": {
+            "type": "string"
+          },
+          "field": {
+            "enum": [
+              "business_name",
+              "instagram",
+              "whatsapp",
+              "public_contact",
+              "google_rating",
+              "google_review_count",
+              "dm_proxy",
+              "dm_measured",
+              "owner"
+            ]
+          },
+          "status": {
+            "enum": [
+              "found",
+              "not_found",
+              "ambiguous",
+              "not_public",
+              "access_restricted",
+              "error"
+            ]
+          },
+          "value": {
+            "oneOf": [
+              {
+                "type": [
+                  "string",
+                  "number",
+                  "null"
+                ]
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "label": {
+                    "const": "Public activity proxy; not measured DM responsiveness"
+                  },
+                  "signals": {
+                    "type": "object",
+                    "properties": {
+                      "owner_reply": {
+                        "type": "object",
+                        "properties": {
+                          "status": {
+                            "enum": [
+                              "observed",
+                              "unavailable"
+                            ]
+                          },
+                          "evidence_ids": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          }
+                        },
+                        "required": [
+                          "status",
+                          "evidence_ids"
+                        ],
+                        "additionalProperties": false
+                      },
+                      "posting_recency": {
+                        "type": "object",
+                        "properties": {
+                          "status": {
+                            "enum": [
+                              "observed",
+                              "unavailable"
+                            ]
+                          },
+                          "evidence_ids": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          }
+                        },
+                        "required": [
+                          "status",
+                          "evidence_ids"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "required": [
+                      "owner_reply",
+                      "posting_recency"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "score": {
+                    "type": "null"
+                  }
+                },
+                "required": [
+                  "label",
+                  "signals",
+                  "score"
+                ],
+                "additionalProperties": false
+              }
+            ]
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "evidence_ids": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string"
+            }
+          },
+          "resolver": {
+            "type": "string"
+          },
+          "retrieved_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "resolved_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "method": {
+            "type": "string"
+          },
+          "components": {
+            "type": "object",
+            "properties": {
+              "owner_reply": {
+                "type": "object",
+                "properties": {
+                  "status": {
+                    "enum": [
+                      "observed",
+                      "unavailable"
+                    ]
+                  },
+                  "evidence_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "required": [
+                  "status",
+                  "evidence_ids"
+                ],
+                "additionalProperties": false
+              },
+              "posting_recency": {
+                "type": "object",
+                "properties": {
+                  "status": {
+                    "enum": [
+                      "observed",
+                      "unavailable"
+                    ]
+                  },
+                  "evidence_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "required": [
+                  "status",
+                  "evidence_ids"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "business_id",
+          "field",
+          "status",
+          "value",
+          "confidence",
+          "evidence_ids",
+          "resolver",
+          "retrieved_at",
+          "resolved_at",
+          "method"
+        ],
+        "additionalProperties": false,
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "status": {
+                  "const": "found"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "value": {
+                  "not": {
+                    "type": "null"
+                  }
+                },
+                "evidence_ids": {
+                  "minItems": 1
+                }
+              }
+            },
+            "else": {
+              "properties": {
+                "value": {
+                  "type": "null"
+                }
+              }
+            }
+          }
+        ],
+        "$schema": "https://json-schema.org/draft/2020-12/schema"
+      }
+    }
+  },
+  "required": [
+    "resolutions"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

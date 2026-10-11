@@ -1,0 +1,32 @@
+# Exact direct application and clean-clone dependencies. Hermes is pinned to
+# an immutable commit; transitive Hermes dependencies are supplied by the
+# digest-pinned image in container builds. Because the container build installs
+# this file with --no-deps, every runtime-needed transitive dependency NOT
+# already present in the base image must be pinned here explicitly (e.g.
+# openpyxl -> et-xmlfile, pdfplumber -> pdfminer.six).
+jsonschema==4.26.0
+phonenumbers==9.0.39
+PyYAML==6.0.3
+openpyxl==3.1.5
+et-xmlfile==2.0.0
+reportlab==5.0.1
+pypdf==6.19.0
+pdfplumber==0.11.10
+pdfminer.six==20260107
+pypdfium2==5.13.0
+mcp==2.0.0
+mcp-types==2.0.0
+-e git+https://github.com/NousResearch/hermes-agent.git@dce1e9b37581dd62e480a9064dc04a709c2940d3#egg=hermes-agent
+ruamel.yaml==0.18.16
+pathspec==1.0.4
+psutil==7.2.2
+python-dotenv==1.2.2
+rich==14.3.3
+tenacity==9.1.4
+requests==2.33.0
+Jinja2==3.1.6
+prompt_toolkit==3.0.52
+croniter==6.0.0
+snowballstemmer==3.1.1
+packaging==26.0
+Markdown==3.10.2

@@ -1,0 +1,90 @@
+{
+  "type": "object",
+  "properties": {
+    "observations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "business_id": {
+            "type": "string"
+          },
+          "snapshot_id": {
+            "type": "string"
+          },
+          "source_kind": {
+            "enum": [
+              "official_site",
+              "google_maps",
+              "instagram",
+              "public_source",
+              "search_snippet"
+            ]
+          },
+          "field": {
+            "enum": [
+              "business_name",
+              "instagram",
+              "whatsapp",
+              "public_contact",
+              "google_rating",
+              "google_review_count",
+              "dm_proxy",
+              "dm_measured",
+              "owner",
+              "candidate",
+              "website",
+              "instagram_candidate",
+              "owner_reply",
+              "posting_recency"
+            ]
+          },
+          "snippet": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "business_id",
+          "snapshot_id",
+          "source_kind",
+          "field",
+          "snippet"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "candidates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name_raw": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "snapshot_id": {
+            "type": "string"
+          },
+          "snippet": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name_raw",
+          "url",
+          "snapshot_id",
+          "snippet"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "observations",
+    "candidates"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

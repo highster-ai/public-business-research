@@ -1,0 +1,14 @@
+{
+  "cloud_only": true,
+  "allowed_models": [
+    "gpt-oss:20b-cloud",
+    "glm-5.3-flash:cloud"
+  ],
+  "provider": "ollama-launch",
+  "base_url": "http://127.0.0.1:11434/v1",
+  "local_model_fallback": false,
+  "group": "Business Research",
+  "pricing_checked": "2026-09-21",
+  "pricing_url": "https://ollama.com/pricing",
+  "cloud_documentation": "https://docs.ollama.com/cloud"
+}

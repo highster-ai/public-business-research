@@ -1,0 +1,23 @@
+category: spa wellness massage
+area: Canggu, Pererenan, Bali
+country: ID
+count: 5
+sources:
+  - google_maps
+  - web
+  - instagram
+requested_fields:
+  - business_name
+  - instagram
+  - whatsapp
+  - public_contact
+  - google_rating
+  - google_review_count
+  - dm_proxy
+  - dm_measured
+  - owner
+dm_probe: false
+formats:
+  - md
+  - xlsx
+  - pdf

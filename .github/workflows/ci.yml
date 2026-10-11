@@ -1,0 +1,107 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  # The whole suite, on Linux, against a home directory with nothing in it. A
+  # fresh runner has no ~/.hermes and no isolated profiles, so any test that
+  # leans on the developer's machine fails here rather than passing locally and
+  # breaking later. Both jobs below are required: this one carries the suite,
+  # the macOS one carries the sandbox boundary, and neither may go green by
+  # skipping the work it exists to do.
+  suite:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install dependencies
+        run: python -m pip install --requirement requirements.lock
+      - name: Materialise the pinned Hermes checkout
+        # The local execution backend refuses to start without a real Hermes
+        # tree at LEADGEN_HERMES_ROOT, so the directory named below has to
+        # exist. Its revision is read out of requirements.lock rather than
+        # repeated here, so the workflow and the pinned dependency cannot drift
+        # apart.
+        run: |
+          COMMIT="$(sed -n 's#^.*hermes-agent\.git@\([0-9a-f]*\).*#\1#p' requirements.lock)"
+          test -n "$COMMIT" || { echo 'requirements.lock pins no Hermes revision'; exit 1; }
+          git init --quiet .ci-hermes
+          git -C .ci-hermes remote add origin https://github.com/NousResearch/hermes-agent.git
+          git -C .ci-hermes fetch --quiet --depth 1 --filter=blob:none origin "$COMMIT"
+          git -C .ci-hermes checkout --quiet FETCH_HEAD
+      - name: Verify the runner has a working Docker daemon
+        # The container isolation tests are skipped when no daemon answers, so
+        # a runner that silently lost Docker would report success while testing
+        # nothing. Ask first, and stop here if the answer is no.
+        run: |
+          docker info > /dev/null || {
+            echo 'This job requires a working Docker daemon: the isolation tests must run, not skip.'
+            exit 1
+          }
+      - name: Run full warning-strict suite against an empty home
+        env:
+          # Nothing under this directory, on purpose. It is not a cache or a
+          # fixture: it is the assertion that the suite brings its own state.
+          HOME: ${{ runner.temp }}/empty-home
+          LEADGEN_HERMES_ROOT: ${{ github.workspace }}/.ci-hermes
+          # Docker must be exercised, not skipped; the suite fails instead of
+          # skipping if the daemon disappears mid-run.
+          LEADGEN_REQUIRE_DOCKER: "1"
+          # Optional Hermes plugins are unused here and their dependencies are
+          # not in requirements.lock; skip discovery so the run is quiet.
+          HERMES_SAFE_MODE: "1"
+        run: |
+          mkdir -p "$HOME"
+          python -W error::ResourceWarning -m unittest discover -s tests -v
+      - name: Install pinned gitleaks
+        env:
+          GITLEAKS_VERSION: 8.24.3
+        run: |
+          curl --fail --location --silent --show-error \
+            "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz" \
+            | tar -xz gitleaks
+          sudo install -m 0755 gitleaks /usr/local/bin/gitleaks
+      - name: Scan full Git history
+        run: gitleaks git --redact --log-opts="--all" --config=.gitleaks.toml
+
+  # The fail-closed sandbox policy is only executable on macOS, where
+  # sandbox-exec exists, so these two tests skip everywhere else -- and a skip
+  # is exactly how this job would rot unnoticed. run_sandbox_boundary.py runs
+  # them by name and exits non-zero unless both actually ran.
+  sandbox:
+    runs-on: macos-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install the dependencies the boundary tests import
+        # app/core.py imports these two, and the sandbox policy imports core.
+        # The rest of the lock file -- the render stack, the MCP client, the
+        # Hermes tree -- is never loaded by these tests, so the revisions come
+        # from the lock file while the install stays as small as the test.
+        run: |
+          PINS="$RUNNER_TEMP/boundary-pins.txt"
+          grep -E '^(jsonschema|phonenumbers)==' requirements.lock > "$PINS"
+          test -s "$PINS" || { echo 'requirements.lock no longer pins the modules app/core.py imports'; exit 1; }
+          python -m pip install --requirement "$PINS"
+      - name: Run the macOS sandbox boundary tests
+        env:
+          LEADGEN_ROOT: ${{ github.workspace }}
+          HERMES_SAFE_MODE: "1"
+        run: python tests/run_sandbox_boundary.py

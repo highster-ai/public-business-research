@@ -1,0 +1,24 @@
+{
+  "source_run": "run-20261010-160848",
+  "business_count": 20,
+  "requested_fields": [
+    "business_name",
+    "instagram",
+    "whatsapp",
+    "public_contact",
+    "google_rating",
+    "google_review_count",
+    "owner",
+    "dm_proxy"
+  ],
+  "field_status_counts": {
+    "business_name": {"found": 20},
+    "instagram": {"found": 1, "not_found": 5, "ambiguous": 14},
+    "whatsapp": {"found": 1, "not_found": 19},
+    "public_contact": {"not_found": 19, "ambiguous": 1},
+    "google_rating": {"found": 1, "not_found": 19},
+    "google_review_count": {"not_found": 20},
+    "owner": {"not_found": 20},
+    "dm_proxy": {"found": 2, "not_public": 18}
+  }
+}

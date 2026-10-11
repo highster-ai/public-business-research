@@ -1,0 +1,34 @@
+{
+  "type": "object",
+  "properties": {
+    "at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "role": {
+      "type": "string"
+    },
+    "event": {
+      "type": "string"
+    },
+    "payload": {
+      "type": "object"
+    },
+    "previous": {
+      "type": "string"
+    },
+    "sha256": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "at",
+    "role",
+    "event",
+    "payload",
+    "previous",
+    "sha256"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

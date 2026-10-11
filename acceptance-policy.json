@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "gate_fields": [
+    "google_rating",
+    "google_review_count",
+    "public_contact"
+  ],
+  "soft_fields": [
+    "instagram",
+    "whatsapp"
+  ],
+  "informational_fields": [
+    "owner",
+    "dm_proxy"
+  ],
+  "minimum_resolved_percent": 70,
+  "overall_useful_cell_ratio": {
+    "statuses": [
+      "found",
+      "not_public"
+    ],
+    "minimum_percent": 0,
+    "gates_approval": false
+  }
+}

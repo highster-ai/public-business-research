@@ -1,0 +1,86 @@
+{
+  "type": "object",
+  "properties": {
+    "evidence_id": {
+      "type": "string"
+    },
+    "business_id": {
+      "type": "string"
+    },
+    "source_url": {
+      "type": "string",
+      "format": "uri"
+    },
+    "source_kind": {
+      "enum": [
+        "official_site",
+        "google_maps",
+        "instagram",
+        "public_source",
+        "search_snippet"
+      ]
+    },
+    "snippet": {
+      "type": "string"
+    },
+    "raw_text": {
+      "type": "string"
+    },
+    "retrieved_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "reader": {
+      "enum": [
+        "find-maps",
+        "find-web",
+        "read-google",
+        "read-site",
+        "find-ig",
+        "read-ig",
+        "read-reviews",
+        "find-owner"
+      ]
+    },
+    "snapshot_id": {
+      "type": "string"
+    },
+    "snapshot_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "field": {
+      "enum": [
+        "business_name",
+        "instagram",
+        "whatsapp",
+        "public_contact",
+        "google_rating",
+        "google_review_count",
+        "dm_proxy",
+        "dm_measured",
+        "owner",
+        "candidate",
+        "website",
+        "instagram_candidate",
+        "owner_reply",
+        "posting_recency"
+      ]
+    }
+  },
+  "required": [
+    "evidence_id",
+    "business_id",
+    "source_url",
+    "source_kind",
+    "snippet",
+    "raw_text",
+    "retrieved_at",
+    "reader",
+    "snapshot_id",
+    "snapshot_sha256",
+    "field"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

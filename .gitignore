@@ -1,0 +1,104 @@
+# Open-source allowlist: ignore everything unless explicitly included below.
+*
+!.gitignore
+!.gitleaks.toml
+
+# Release source, schemas, tests, and documentation.
+!app/
+!app/**
+!schemas/
+!schemas/**
+!tests/
+!tests/**
+!docs/
+!docs/**
+!README.md
+!SECURITY.md
+!CONTRIBUTING.md
+!LICENSE
+!.github/
+!.github/workflows/
+!.github/workflows/**
+
+# Public command entry points.
+!leadgen
+!orchestrate
+!leadgen_control_mcp.py
+
+# Packaging and dependency manifests.
+!pyproject.toml
+!requirements.txt
+!requirements-*.txt
+!requirements*.in
+!requirements.lock
+
+# Container build definitions.
+!Dockerfile
+!Dockerfile.*
+
+# Root configuration files, admitted by exact filename only. A generic pattern
+# such as *.json or *.yaml would also admit credential files that land at the
+# repository root (credentials.json, token.json, ...), so each permitted file
+# is named explicitly. tests/test_gitignore_contract.py fails if this list
+# drifts from the tracked root files.
+!/acceptance-policy.json
+!/model-policy.json
+!/profiles.json
+!/example.yaml
+!/example-backup.yaml
+!/smoke.yaml
+
+# --- Explicit denials --------------------------------------------------------
+# Everything below comes after every allow rule above, so no allow rule can
+# re-admit it. The leading "/" pins the repository-root location where these
+# files actually appear; the bare and globbed forms additionally keep nested
+# copies out of the tree.
+
+# Environment files.
+/.env
+.env
+/.env.*
+.env.*
+# The one deliberate exception: this example file carries placeholders only,
+# and tests/test_gitignore_contract.py asserts it contains no real values.
+!/.env.example
+
+# Credentials, secrets and tokens.
+/credentials.json
+credentials.json
+/secrets.json
+secrets.json
+/token.json
+token.json
+/service-account.json
+service-account.json
+/private.json
+private.json
+
+# Cookies and browser profiles.
+*cookie*
+*cookies*
+/browser/
+browser/
+/profiles/
+/profile-bridge/
+
+# Local run state, experiment harnesses and captured snapshots.
+runs/
+experiments/
+snapshots/
+diagnostics/
+backups/
+
+# Generated deliverables and machine-local material.
+deliverables/
+*.jsonl
+*.xlsx
+*.pdf
+leads.*
+
+# Toolchain and editor noise.
+venv/
+__pycache__/
+*.py[cod]
+.DS_Store

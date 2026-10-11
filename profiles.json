@@ -1,0 +1,333 @@
+{
+  "supervisor": {
+    "profile": "lg-supervisor",
+    "charter": "profiles/lg-supervisor/skills/leads-supervisor/SKILL.md",
+    "tools": [],
+    "model": {
+      "api_key": "ollama",
+      "base_url": "http://127.0.0.1:11434/v1",
+      "default": "gpt-oss:20b-cloud",
+      "provider": "ollama-launch"
+    },
+    "enabled": true,
+    "cloud_only": true
+  },
+  "intake": {
+    "profile": "lg-intake",
+    "charter": "profiles/lg-intake/skills/leads-intake/SKILL.md",
+    "tools": [],
+    "model": {
+      "api_key": "ollama",
+      "base_url": "http://127.0.0.1:11434/v1",
+      "default": "gpt-oss:20b-cloud",
+      "provider": "ollama-launch"
+    },
+    "enabled": true,
+    "cloud_only": true
+  },
+  "query-plan": {
+    "profile": "lg-query-plan",
+    "charter": "profiles/lg-query-plan/skills/leads-query-plan/SKILL.md",
+    "tools": [],
+    "model": {
+      "api_key": "ollama",
+      "base_url": "http://127.0.0.1:11434/v1",
+      "default": "gpt-oss:20b-cloud",
+      "provider": "ollama-launch"
+    },
+    "enabled": true,
+    "cloud_only": true
+  },
+  "find-maps": {
+    "profile": "lg-find-maps",
+    "charter": "profiles/lg-find-maps/skills/leads-find-maps/SKILL.md",
+    "tools": [
+      "leadgen_open",
+      "leadgen_scroll",
+      "leadgen_link"
+    ],
+    "model": {
+      "api_key": "ollama",
+      "base_url": "http://127.0.0.1:11434/v1",
+      "default": "glm-5.3-flash:cloud",
+      "provider": "ollama-launch"
+    },
+    "enabled": true,
+    "cloud_only": true
+  },
+  "find-web": {
+    "profile": "lg-find-web",
+    "charter": "profiles/lg-find-web/skills/leads-find-web/SKILL.md",
+    "tools": [
+      "leadgen_open",
+      "leadgen_scroll",
+      "leadgen_link"
+    ],
+    "model": {
+      "api_key": "ollama",
+      "base_url": "http://127.0.0.1:11434/v1",
+      "default": "glm-5.3-flash:cloud",
+      "provider": "ollama-launch"
+    },
+    "enabled": true,
+    "cloud_only": true
+  },
+  "dedupe": {
+    "profile": "lg-dedupe",
+    "charter": "profiles/lg-dedupe/skills/leads-dedupe/SKILL.md",
+    "tools": [],
+    "model": {
+      "api_key": "ollama",
+      "base_url": "http://127.0.0.1:11434/v1",
+      "default": "gpt-oss:20b-cloud",
+      "provider": "ollama-launch"
+    },
+    "enabled": true,
+    "cloud_only": true
+  },
+  "read-google": {
+    "profile": "lg-read-google",
+    "charter": "profiles/lg-read-google/skills/leads-read-google/SKILL.md",
+    "tools": [
+      "leadgen_open",
+      "leadgen_scroll",
+      "leadgen_link"
+    ],
+    "model": {
+      "api_key": "ollama",
+      "base_url": "http://127.0.0.1:11434/v1",
+      "default": "glm-5.3-flash:cloud",
+      "provider": "ollama-launch"
+    },
+    "enabled": true,
+    "cloud_only": true
+  },
+  "read-site": {
+    "profile": "lg-read-site",
+    "charter": "profiles/lg-read-site/skills/leads-read-site/SKILL.md",
+    "tools": [
+      "leadgen_open",
+      "leadgen_scroll",
+      "leadgen_link"
+    ],
+    "model": {
+      "api_key": "ollama",
+      "base_url": "http://127.0.0.1:11434/v1",
+      "default": "glm-5.3-flash:cloud",
+      "provider": "ollama-launch"
+    },
+    "enabled": true,
+    "cloud_only": true
+  },
+  "find-ig": {
+    "profile": "lg-find-ig",
+    "charter": "profiles/lg-find-ig/skills/leads-find-ig/SKILL.md",
+    "tools": [
+      "leadgen_open",
+      "leadgen_scroll",
+      "leadgen_link"
+    ],
+    "model": {
+      "api_key": "ollama",
+      "base_url": "http://127.0.0.1:11434/v1",
+      "default": "glm-5.3-flash:cloud",
+      "provider": "ollama-launch"
+    },
+    "enabled": true,
+    "cloud_only": true
+  },
+  "read-ig": {
+    "profile": "lg-read-ig",
+    "charter": "profiles/lg-read-ig/skills/leads-read-ig/SKILL.md",
+    "tools": [
+      "leadgen_open",
+      "leadgen_scroll",
+      "leadgen_link"
+    ],
+    "model": {
+      "api_key": "ollama",
+      "base_url": "http://127.0.0.1:11434/v1",
+      "default": "glm-5.3-flash:cloud",
+      "provider": "ollama-launch"
+    },
+    "enabled": true,
+    "cloud_only": true
+  },
+  "read-reviews": {
+    "profile": "lg-read-reviews",
+    "charter": "profiles/lg-read-reviews/skills/leads-read-reviews/SKILL.md",
+    "tools": [
+      "leadgen_open",
+      "leadgen_scroll",
+      "leadgen_link"
+    ],
+    "model": {
+      "api_key": "ollama",
+      "base_url": "http://127.0.0.1:11434/v1",
+      "default": "glm-5.3-flash:cloud",
+      "provider": "ollama-launch"
+    },
+    "enabled": true,
+    "cloud_only": true
+  },
+  "find-owner": {
+    "profile": "lg-find-owner",
+    "charter": "profiles/lg-find-owner/skills/leads-find-owner/SKILL.md",
+    "tools": [
+      "leadgen_open",
+      "leadgen_scroll",
+      "leadgen_link"
+    ],
+    "model": {
+      "api_key": "ollama",
+      "base_url": "http://127.0.0.1:11434/v1",
+      "default": "glm-5.3-flash:cloud",
+      "provider": "ollama-launch"
+    },
+    "enabled": true,
+    "cloud_only": true
+  },
+  "resolve-ig": {
+    "profile": "lg-resolve-ig",
+    "charter": "profiles/lg-resolve-ig/skills/leads-resolve-ig/SKILL.md",
+    "tools": [],
+    "model": {
+      "api_key": "ollama",
+      "base_url": "http://127.0.0.1:11434/v1",
+      "default": "gpt-oss:20b-cloud",
+      "provider": "ollama-launch"
+    },
+    "enabled": true,
+    "cloud_only": true
+  },
+  "resolve-wa": {
+    "profile": "lg-resolve-wa",
+    "charter": "profiles/lg-resolve-wa/skills/leads-resolve-wa/SKILL.md",
+    "tools": [],
+    "model": {
+      "api_key": "ollama",
+      "base_url": "http://127.0.0.1:11434/v1",
+      "default": "gpt-oss:20b-cloud",
+      "provider": "ollama-launch"
+    },
+    "enabled": true,
+    "cloud_only": true
+  },
+  "resolve-owner": {
+    "profile": "lg-resolve-owner",
+    "charter": "profiles/lg-resolve-owner/skills/leads-resolve-owner/SKILL.md",
+    "tools": [],
+    "model": {
+      "api_key": "ollama",
+      "base_url": "http://127.0.0.1:11434/v1",
+      "default": "glm-5.3-flash:cloud",
+      "provider": "ollama-launch"
+    },
+    "enabled": true,
+    "cloud_only": true
+  },
+  "resolve-dm": {
+    "profile": "lg-resolve-dm",
+    "charter": "profiles/lg-resolve-dm/skills/leads-resolve-dm/SKILL.md",
+    "tools": [],
+    "model": {
+      "api_key": "ollama",
+      "base_url": "http://127.0.0.1:11434/v1",
+      "default": "gpt-oss:20b-cloud",
+      "provider": "ollama-launch"
+    },
+    "enabled": true,
+    "cloud_only": true
+  },
+  "probe-send": {
+    "profile": "lg-probe-send",
+    "charter": "profiles/lg-probe-send/skills/leads-probe-send/SKILL.md",
+    "tools": [],
+    "model": {
+      "api_key": "ollama",
+      "base_url": "http://127.0.0.1:11434/v1",
+      "default": "gpt-oss:20b-cloud",
+      "provider": "ollama-launch"
+    },
+    "enabled": false,
+    "cloud_only": true
+  },
+  "probe-check": {
+    "profile": "lg-probe-check",
+    "charter": "profiles/lg-probe-check/skills/leads-probe-check/SKILL.md",
+    "tools": [],
+    "model": {
+      "api_key": "ollama",
+      "base_url": "http://127.0.0.1:11434/v1",
+      "default": "gpt-oss:20b-cloud",
+      "provider": "ollama-launch"
+    },
+    "enabled": false,
+    "cloud_only": true
+  },
+  "validator": {
+    "profile": "lg-validator",
+    "charter": "profiles/lg-validator/skills/leads-validator/SKILL.md",
+    "tools": [],
+    "model": {
+      "api_key": "ollama",
+      "base_url": "http://127.0.0.1:11434/v1",
+      "default": "gpt-oss:20b-cloud",
+      "provider": "ollama-launch"
+    },
+    "enabled": true,
+    "cloud_only": true
+  },
+  "consolidator": {
+    "profile": "lg-consolidator",
+    "charter": "profiles/lg-consolidator/skills/leads-consolidator/SKILL.md",
+    "tools": [],
+    "model": {
+      "api_key": "ollama",
+      "base_url": "http://127.0.0.1:11434/v1",
+      "default": "gpt-oss:20b-cloud",
+      "provider": "ollama-launch"
+    },
+    "enabled": true,
+    "cloud_only": true
+  },
+  "render-xlsx": {
+    "profile": "lg-render-xlsx",
+    "charter": "profiles/lg-render-xlsx/skills/leads-render-xlsx/SKILL.md",
+    "tools": [],
+    "model": {
+      "api_key": "ollama",
+      "base_url": "http://127.0.0.1:11434/v1",
+      "default": "gpt-oss:20b-cloud",
+      "provider": "ollama-launch"
+    },
+    "enabled": true,
+    "cloud_only": true
+  },
+  "render-pdf": {
+    "profile": "lg-render-pdf",
+    "charter": "profiles/lg-render-pdf/skills/leads-render-pdf/SKILL.md",
+    "tools": [],
+    "model": {
+      "api_key": "ollama",
+      "base_url": "http://127.0.0.1:11434/v1",
+      "default": "gpt-oss:20b-cloud",
+      "provider": "ollama-launch"
+    },
+    "enabled": true,
+    "cloud_only": true
+  },
+  "render-md": {
+    "profile": "lg-render-md",
+    "charter": "profiles/lg-render-md/skills/leads-report-md/SKILL.md",
+    "tools": [],
+    "model": {
+      "api_key": "ollama",
+      "base_url": "http://127.0.0.1:11434/v1",
+      "default": "gpt-oss:20b-cloud",
+      "provider": "ollama-launch"
+    },
+    "enabled": true,
+    "cloud_only": true
+  }
+}

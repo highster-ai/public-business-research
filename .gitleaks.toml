@@ -1,0 +1,23 @@
+[extend]
+useDefault = true
+
+# One synthetic constant, not a credential. tests/test_jev_shadow.py injects it
+# through a mocked environment to prove the shadow-mode pipeline never writes a
+# key to disk; the real key is read from TYPESAFE_API_KEY at run time and is
+# never in this tree.
+#
+# Two things about this block are load-bearing:
+#
+#   * It is a single [allowlist] table, not [[allowlists]]. The array-of-tables
+#     form arrived in gitleaks 8.25; the pinned scanner is older, and an
+#     unknown key is dropped without a word, so the finding stands and CI goes
+#     red. This form is read correctly by both.
+#   * It is scoped by value, not by path. Criteria inside an allowlist are
+#     OR-ed, so a `paths` entry would exempt that whole file from scanning
+#     forever, and a real secret committed there later would pass unnoticed.
+#     Matching the detected secret itself cannot widen that way.
+[allowlist]
+description = "Synthetic Jev shadow key used only by mocked secret-safety tests"
+targetRules = ["generic-api-key"]
+regexTarget = "secret"
+regexes = ['''^test-shadow-key-abc123$''']

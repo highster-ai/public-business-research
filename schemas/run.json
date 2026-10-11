@@ -1,0 +1,77 @@
+{
+  "type": "object",
+  "properties": {
+    "category": {
+      "type": "string"
+    },
+    "area": {
+      "type": "string"
+    },
+    "country": {
+      "type": "string",
+      "pattern": "^[A-Z]{2}$"
+    },
+    "count": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 60
+    },
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "google_maps",
+          "web",
+          "instagram"
+        ]
+      }
+    },
+    "requested_fields": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "business_name",
+          "instagram",
+          "whatsapp",
+          "public_contact",
+          "google_rating",
+          "google_review_count",
+          "dm_proxy",
+          "dm_measured",
+          "owner"
+        ]
+      }
+    },
+    "dm_probe": {
+      "const": false
+    },
+    "formats": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "md",
+          "xlsx",
+          "pdf"
+        ]
+      }
+    }
+  },
+  "required": [
+    "category",
+    "area",
+    "country",
+    "count",
+    "sources",
+    "requested_fields",
+    "dm_probe",
+    "formats"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}
