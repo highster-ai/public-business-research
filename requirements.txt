@@ -6,7 +6,7 @@ reportlab==5.0.1
 pypdf==6.19.0
 pdfplumber==0.11.10
 pypdfium2==5.13.0
-mcp==2.0.0
+mcp==2.2.0
 mcp-types==2.0.0
 -e git+https://github.com/NousResearch/hermes-agent.git@dce1e9b37581dd62e480a9064dc04a709c2940d3#egg=hermes-agent
 # Hermes currently declares its runtime set only for its bundled Python 3.14.
